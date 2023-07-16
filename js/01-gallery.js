@@ -45,11 +45,12 @@ gallery.addEventListener('click', zoom);
 
 function zoom(event) {
   event.preventDefault();
+  if (!event.target.classList.contains('gallery__image')) return;
   basicLightbox
     .create(`<img src="${event.target.getAttribute('data-source')}" width="800" height="600">`, {
       onShow: instance => {
         document.onkeydown = function (evt) {
-          evt = evt || window.event;
+          evt = evt;
           let isEscape = false;
           if ('key' in evt) {
             isEscape = evt.key === 'Escape' || evt.key === 'Esc';
@@ -57,6 +58,7 @@ function zoom(event) {
             isEscape = evt.keyCode === 27;
           }
           if (isEscape) {
+            document.onkeydown = null;
             instance.close();
           }
         };
